@@ -1,8 +1,8 @@
 ```mermaid
 sequenceDiagram
+    participant user
     participant browser
     participant server
-    participant user
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
@@ -28,9 +28,34 @@ sequenceDiagram
 
     Note right of browser: The browser executes the callback function that renders the notes
 
-    user->>browser : POST https://fullstack-example.herokuapp.com/new_note
+    user->>browser : type note and click button
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+    Note right of browser: The browser reload
+
+   
+
+   browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
-    browser->>server: 
-    server->>browser: User's Input
+    server-->>browser: HTML document
     deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code again that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes including the new_note
 ```
