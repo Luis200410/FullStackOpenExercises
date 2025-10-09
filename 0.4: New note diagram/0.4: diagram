@@ -28,10 +28,12 @@ sequenceDiagram
 
     Note right of browser: The browser executes the callback function that renders the notes
 
-    user->>browser : type note and click button
+    user->>browser : Type note and click Save
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    Note right of browser: Sends form data 
+    server -->>browser: 302 Found (location:/examppleapp/notes)
 
-    Note right of browser: The browser reload
+    Note right of browser: Browser follows the redirect to /notes (page reload)
 
    
 
@@ -54,8 +56,8 @@ sequenceDiagram
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ..., { "content": "<user note>", "date": "<now>" }]
     deactivate server
 
-    Note right of browser: The browser executes the callback function that renders the notes including the new_note
+    Note right of browser: Browser JS executes again and fetches updated data.json
 ```
